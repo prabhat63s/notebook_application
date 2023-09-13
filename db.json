@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "title": "React JS",
+      "desc": "\nReact can be used to build web, mobile, and desktop applications, making it a versatile framework for cross-platform development. React Native, a framework based on React, is specifically designed for mobile app development, while React Desktop allows you to create desktop applications using web technologies.\n",
+      "id": 1
+    }
+  ]
+}

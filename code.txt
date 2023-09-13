@@ -1,0 +1,180 @@
+// home components======================================== 
+
+import React from "react";
+import Card from "./Card";
+import { NavLink } from "react-router-dom";
+import Input from "./Input";
+import { FaPlus } from "react-icons/fa"
+
+const Home = () => {
+  return (
+    <div className="w-full h-screen bg-gray-100">
+      <div className="w-[100%] h-[100%] flex gap-3 bg-white">
+        {/* show saved note  */}
+
+        <div className="w-[30%] flex flex-col rounded-l-lg gap-4 p-4">
+          <div className="w-[100%]">
+            <NavLink to="/">
+              <button className="w-[100%] p-3 rounded-md flex gap-2 items-center justify-center shadow-md text-2xl font-semibold bg-gray-100">
+                Create Note <FaPlus size={16} />
+              </button>
+            </NavLink>
+          </div>
+          <div className="w-[100%] overflow-auto">
+            <Card />
+          </div>
+        </div>
+
+        {/* Add notes  */}
+
+        <div className="w-[70%] p-4 rounded-r-lg flex flex-col">
+          <Input />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+
+
+//card components==============================
+
+
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
+
+const Card = () => {
+  const [value, setValue] = useState([]);
+
+  // const { id } = useParams()
+
+  async function getValue() {
+    let result = await axios.get(`http://localhost:3333/users`);
+    console.log(result.data); // resault will be shown on network localhost users
+    let userData = result.data;
+    setValue(userData);
+  }
+
+  useEffect(() => {
+    getValue();
+  }, []);
+
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete");
+
+    if (confirmDelete) {
+      axios
+        .delete("http://localhost:3333/users/" + id)
+        .then((res) => {
+          setValue((prevData) => prevData.filter((item) => item.id !== id));
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
+  return (
+    <>
+      {value.map((item, id) => (
+        <div
+          key={id}
+          className="w-[95%] mb-4 px-3 py-2 gap-6 rounded-md shadow-md flex flex-col bg-gray-50"
+        >
+          <div className="flex justify-between">
+            <h1 className="text-[16px] font-medium">{item.title}</h1>
+            <div className="flex gap-2 text-gray-600">
+              <NavLink to="/" className="hover:text-black" title="View">
+                <button type="submit">
+                  <AiOutlineEye />
+                </button>
+              </NavLink>
+              <NavLink to="/" className="hover:text-black" title="Edit">
+                <button type="submit">
+                  <AiOutlineEdit />
+                </button>
+              </NavLink>
+              <button type="submit" onClick={(e) => handleDelete(item.id)}>
+                <AiOutlineDelete />
+              </button>
+            </div>
+          </div>
+          <p className="text-[14px] truncate">{item.desc}</p>
+        </div>
+      ))}
+    </>
+  );
+};
+
+export default Card;
+
+
+// input components=========================================
+
+
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
+const Input = () => {
+  // // State to store user input values
+
+  const [value, setValue] = useState({
+    title: "",
+    desc: "",
+  });
+
+  const navigate = useNavigate();
+
+  // // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    axios
+      .post("http://localhost:3333/users", value) // Send a POST request to create a new user
+      .then((res) => {
+        console.log(res); // Log the response from the server (you can update this logic as needed)
+        navigate("/"); // Navigate back to the home page after successful submission
+      })
+      .catch((err) => console.error(err)); // Log any errors that occur during the POST request
+  };
+    
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className="w-[100%] py-4 mb-2 flex justify-between">
+          <h1 className="text-2xl font-semibold">Add Note</h1>
+          <button
+            type="submit"
+            className="py-1 px-2 rounded-md shadow-md bg-gray-100"
+          >
+            Save
+          </button>
+        </div>
+        <div className="w-[100%] flex flex-col shadow-md rounded-md">
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={value.title}
+            onChange={(e) => setValue({ ...value, title: e.target.value })} // Update the 'name' field in the state
+            className="border p-3 outline-none rounded-t-md bg-gray-50 text-black"
+          />
+          <textarea
+            name="desc"
+            id=""
+            cols="30"
+            rows="22"
+            value={value.desc}
+            onChange={(e) => setValue({ ...value, desc: e.target.value })} // Update the 'name' field in the state
+            placeholder="Description"
+            className="border resize-none p-3 rounded-b-md outline-none text-black bg-gray-50"
+          />
+        </div>
+      </form>
+    </>
+  );
+};
+
+export default Input;

@@ -1,0 +1,41 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap');
+
+body {
+    
+/* font-family: 'Mukta', sans-serif; */
+/* font-family: 'Open Sans', sans-serif; */
+font-family: 'Poppins', sans-serif;
+
+}
+/* For WebKit (Chrome, Safari, newer versions of Opera) */
+::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgb(215, 215, 215);
+  }
+  
+  /* For Firefox */
+  /* Note: Firefox only supports scrollbar-color as of my last update in September 2021. */
+  /* This might have changed in newer versions of Firefox. */
+  /* So, make sure to check the latest documentation. */
+  /* scrollbar-color: #888 #f1f1f1; */
+  
+  /* For Microsoft Edge and IE */
+  /* Note: Edge and IE have their own proprietary pseudo-elements for styling scrollbars. */
+  /* These properties may change in the future or become deprecated. */
+  /* So, always check the latest documentation. */
+  /* Example properties for Edge and IE (subject to change): */
+  /* -ms-overflow-style: none; Hide the default scrollbar */
+  /* scrollbar-width: thin; */
+  /* scrollbar-color: #888 #f1f1f1; */
+  
+
+
